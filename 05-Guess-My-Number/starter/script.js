@@ -1,12 +1,19 @@
 'use strict';
 
 let rndNumber = Math.trunc(Math.random() * 20) + 1;
+let wonGame = false;
 
-document.querySelector('.check').addEventListener('click', buttonLogic);
+document.querySelector('.check').addEventListener('click', checkLogic);
 document.querySelector('.again').addEventListener('click', againLogic);
 
-function buttonLogic() {
+function checkLogic() {
     const guess = document.querySelector('.guess').value;
+
+    // When you already won
+    if (wonGame){
+        document.querySelector('.message').textContent = "You Already Won, Fool!";
+        return;
+    }
 
     // When there's no number
     if (!guess){
@@ -25,7 +32,7 @@ function buttonLogic() {
     return gameLogic(num_guess);
 }
 
-function gameLogic(guess){    
+function gameLogic(guess){
     const score = document.querySelector('.score').textContent;
     // Win Condition
     if(guess === rndNumber){
@@ -36,6 +43,7 @@ function gameLogic(guess){
         }
         document.querySelector('body').style.backgroundColor = "#60b347";
         document.querySelector('.number').textContent = rndNumber;
+        wonGame = true;
         return;
     }
     // Wrong number
@@ -58,5 +66,6 @@ function againLogic(){
     document.querySelector('.message').textContent = "Start guessing...";
     document.querySelector('.score').textContent = 20;
     document.querySelector('.guess').value = '';
+    wonGame = false;
     return;
 }
